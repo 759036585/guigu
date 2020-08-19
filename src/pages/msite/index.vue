@@ -1,76 +1,12 @@
 <template>
   <div class="msite">
-    <topGuide title="北京市" :login="true" :search="true"></topGuide>
-    <van-swipe>
-      <van-swipe-item>
+    <topGuide :title="address.name" :login="true" :search="true"></topGuide>
+    <van-swipe v-if="showSwiper">
+      <van-swipe-item v-for="(item,index) in categorysArr" :key="index">
         <div class="msi_nav">
-          <div class="msi_nav_item">
-            <img src="./images/nav/1.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/2.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/3.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/4.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/5.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/6.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/7.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/8.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-        </div>
-      </van-swipe-item>
-      <van-swipe-item>
-        <div class="msi_nav">
-          <div class="msi_nav_item">
-            <img src="./images/nav/1.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/2.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/3.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/4.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/5.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/6.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/7.jpg" alt />
-            <p>甜品饮品</p>
-          </div>
-          <div class="msi_nav_item">
-            <img src="./images/nav/8.jpg" alt />
-            <p>甜品饮品</p>
+          <div class="msi_nav_item" v-for="item in item" :key="item.id">
+            <img :src="'https://fuss10.elemecdn.com'+item.image_url" alt />
+            <p>{{item.title}}</p>
           </div>
         </div>
       </van-swipe-item>
@@ -346,17 +282,46 @@
 
 <script>
 import topGuide from '@/components/topGuide'
+import { mapState } from 'vuex'
 export default {
   components: {
     topGuide
   },
   data () {
-    return {}
+    return {
+      showSwiper: false
+    }
   },
   methods: {
   },
+  watch: {
+    categorys (value) {
+      this.$nextTick(() => {
+        this.showSwiper = true
+      })
+    }
+  },
+  computed: {
+    ...mapState(['address', 'categorys']),
+    categorysArr () {
+      const { categorys } = this
+      const arr = []
+      let minArr = []
+      categorys.forEach(i => {
+        if (minArr.length === 8) {
+          minArr = []
+        }
+        if (minArr.length === 0) {
+          arr.push(minArr)
+        }
+        minArr.push(i)
+      })
+      return arr
+    }
+  },
   mounted () {
-
+    this.$store.dispatch('getAddress')
+    this.$store.dispatch('getCategorys')
   }
 }
 </script>
