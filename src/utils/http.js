@@ -4,7 +4,7 @@ import { Toast } from 'vant'
 
 // 环境的切换
 if (process.env.NODE_ENV === 'development') {
-  axios.defaults.baseURL = ''
+  axios.defaults.baseURL = 'http://localhost:4000'
 } else if (process.env.NODE_ENV === 'debug') {
   axios.defaults.baseURL = ''
 } else if (process.env.NODE_ENV === 'production') {
