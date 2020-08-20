@@ -404,7 +404,7 @@ export default {
           span:first-child {
             // display: inline-block;
             display: flex;
-            justify-content: start;
+            justify-content: flex-start;
             div {
               width: 16px;
               img {

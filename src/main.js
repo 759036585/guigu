@@ -6,6 +6,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 
 import './assets/css/reset.css'
+import 'lib-flexible'
 
 Vue.use(Vant)
 
